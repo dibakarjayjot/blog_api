@@ -39,7 +39,7 @@ app
     .use(bodyParser.urlencoded({extended: false}))
     .use(cookieParser())
     .use("/v1/api/users", users, apiLimiter)
-    //.use("/v1/api/blogs",blogs);
+    .use("/v1/api/blogs", blogs, apiLimiter);
 
 app.get("/", apiLimiter, function(req, res) {
   res.send({title: "Home Page"});
