@@ -3,7 +3,7 @@ const express = require("express"),
     logger = require("morgan"),
     cookieParser = require("cookie-parser"),
     users = require("./routes/users"),
-    blogs = require("./routes/blogs")
+    blogs = require("./routes/blogs"),
     app = express(),
     bodyParser=require("body-parser"),
     mongoose=require("mongoose"),
@@ -13,7 +13,7 @@ const express = require("express"),
 
 app.use(paginate.middleware(10, 50));
 
-mongoose.connect("database url", {useNewUrlParser: true })
+mongoose.connect(" database url here", {useNewUrlParser: true })
     .then(() => console.log("Connected to MongoDB..."))
     .catch((err) => console.error("Could not connect to MongoDB..."));
 
@@ -37,9 +37,9 @@ app
     .use(logger("dev"))
     .use(bodyParser.json())
     .use(bodyParser.urlencoded({extended: false}))
-.   .use(cookieParser())
+    .use(cookieParser())
     .use("/v1/api/users", users, apiLimiter)
-    .use("/v1/api/blogs",blogs);
+    //.use("/v1/api/blogs",blogs);
 
 app.get("/", apiLimiter, function(req, res) {
   res.send({title: "Home Page"});
