@@ -3,6 +3,7 @@ const express = require("express"),
     logger = require("morgan"),
     cookieParser = require("cookie-parser"),
     users = require("./routes/users"),
+    blogs = require("./routes/blogs")
     app = express(),
     bodyParser=require("body-parser"),
     mongoose=require("mongoose"),
@@ -12,8 +13,7 @@ const express = require("express"),
 
 app.use(paginate.middleware(10, 50));
 
-mongoose.connect("mongodb+srv://suku:suku@cluster0-hxwdz.mongodb.net/ProjectManagement?retryWrites=true",
- {useNewUrlParser: true })
+mongoose.connect("database url", {useNewUrlParser: true })
     .then(() => console.log("Connected to MongoDB..."))
     .catch((err) => console.error("Could not connect to MongoDB..."));
 
@@ -33,12 +33,13 @@ const apiLimiter = new RateLimit({
 });
 
 
-app.use(logger("dev"));
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({extended: false}));
-app.use(cookieParser());
-
-app.use("/v1/api/users", users, apiLimiter);
+app
+    .use(logger("dev"))
+    .use(bodyParser.json())
+    .use(bodyParser.urlencoded({extended: false}))
+.   .use(cookieParser())
+    .use("/v1/api/users", users, apiLimiter)
+    .use("/v1/api/blogs",blogs);
 
 app.get("/", apiLimiter, function(req, res) {
   res.send({title: "Home Page"});
